@@ -26,9 +26,16 @@ FetchContent_Declare(
     GIT_PROGRESS TRUE
     USES_TERMINAL_DOWNLOAD TRUE
 )
-set(LLVM_ENABLE_RTTI ON)
+set(LLVM_ENABLE_RTTI ON CACHE BOOL "" FORCE)
 set(LIBCLANG_BUILD_STATIC ON CACHE BOOL "" FORCE)
+set(LLVM_ENABLE_LIBCXX ON CACHE BOOL "" FORCE)
+set(LLVM_STATIC_LINK_CXX_STDLIB ON CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(LLVM_BUILD_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
+set(LLVM_LINK_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
 set(LLVM_ENABLE_PROJECTS "clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) #;debuginfo-tests;parallel-libs;polly;pstl;libc;libclc;
+
+set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/dist" CACHE STRING "" FORCE)
 if(APPLE)
 set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk" CACHE STRING "" FORCE)
 endif()

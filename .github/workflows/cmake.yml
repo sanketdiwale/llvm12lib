@@ -47,31 +47,18 @@ jobs:
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build . --config $BUILD_TYPE
     - name: collect the distribution files
-      working-directory: ${{runner.workspace}}/build/_deps
+      working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: |
-        mkdir -p llvm-dist
-        mv llvm-build/lib llvm-dist/lib
-        mv llvm-build/include llvm-dist/include
-        cp -R llvm-src/llvm/include llvm-dist
-        cp -R llvm-src/clang/include llvm-dist
-        mkdir -p llvm-dist/bin
-        cp llvm-build/bin/clang* llvm-dist/bin
-        cp llvm-build/bin/ld* llvm-dist/bin
-        cp llvm-build/bin/lld* llvm-dist/bin
-        cp llvm-build/bin/llc llvm-dist/bin
-        cp llvm-build/bin/dsymutil llvm-dist/bin
-        cp llvm-build/bin/llvm-config llvm-dist/bin
-        cp llvm-build/bin/wasm-ld llvm-dist/bin
+      run: cmake --install .
     - name: Compress binary
-      working-directory: ${{runner.workspace}}/build/_deps/llvm-dist
+      working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: tar -zcvf llvm12_${{ matrix.os }}.tar.gz lib bin include
+      run: tar -zcvf llvm12_${{ matrix.os }}.tar.gz dist
     - name: Create Artifact
       uses: actions/upload-artifact@v2
       with: 
         name: llvm12_${{ matrix.os }}
-        path: ${{runner.workspace}}/build/_deps/llvm-dist/llvm12_${{ matrix.os }}.tar.gz
+        path: ${{runner.workspace}}/build/llvm12_${{ matrix.os }}.tar.gz
   create_prerelease:
     needs: [build]
     if: success()
