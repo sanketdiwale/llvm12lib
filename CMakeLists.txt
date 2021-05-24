@@ -19,7 +19,7 @@ set(CMAKE_BUILD_TYPE Release)
 FetchContent_Declare(
     ${EP_LLVM}
     GIT_REPOSITORY https://github.com/llvm/llvm-project.git
-    GIT_TAG llvmorg-12-init
+    GIT_TAG llvmorg-12.0.0
     GIT_SHALLOW ON
     BUILD_ALWAYS OFF
     SOURCE_SUBDIR llvm
@@ -33,11 +33,13 @@ set(LLVM_STATIC_LINK_CXX_STDLIB ON CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(LLVM_BUILD_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
 set(LLVM_LINK_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
-set(LLVM_ENABLE_PROJECTS "clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) #;debuginfo-tests;parallel-libs;polly;pstl;libc;libclc;
+set(LLVM_ENABLE_PROJECTS "clang;compiler-rt;debuginfo-tests;libclc;libcxx;libcxxabi;libunwind;lld;lldb;openmp;parallel-libs;polly;pstl" CACHE STRING "" FORCE) # libc;clang-tools-extra;
+# clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) #;debuginfo-tests;parallel-libs;polly;pstl;libc;libclc;
 
 set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/dist" CACHE STRING "" FORCE)
 if(APPLE)
-set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk" CACHE STRING "" FORCE)
+# set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk" CACHE STRING "" FORCE)
+set(LLDB_USE_SYSTEM_DEBUGSERVER ON CACHE BOOL "" FORCE)
 endif()
 # Make LLVM available
 FetchContent_MakeAvailable(${EP_LLVM})
