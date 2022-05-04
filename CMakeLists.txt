@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 # project name
-project(llvm VERSION 12)
+project(llvm VERSION 13)
 # platform specific build configuration
 if(UNIX AND NOT APPLE)
     if(NOT (MSVC OR MSYS OR MINGW))
@@ -14,12 +14,12 @@ set(FETCHCONTENT_QUIET FALSE)
 # get and configure LLVM
 set(EP_LLVM "LLVM")
 message(STATUS "Build ${EP_LLVM} from source")
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 # set(FETCHCONTENT_SOURCE_DIR_${EP_LLVM} "${PROJECT_SOURCE_DIR}/external/llvm-project-src")
 FetchContent_Declare(
     ${EP_LLVM}
     GIT_REPOSITORY https://github.com/llvm/llvm-project.git
-    GIT_TAG llvmorg-12.0.0
+    GIT_TAG llvmorg-13.0.0
     GIT_SHALLOW ON
     BUILD_ALWAYS OFF
     SOURCE_SUBDIR llvm
@@ -33,7 +33,7 @@ set(LLVM_STATIC_LINK_CXX_STDLIB ON CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(LLVM_BUILD_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
 set(LLVM_LINK_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
-set(LLVM_ENABLE_PROJECTS "clang;compiler-rt;debuginfo-tests;libclc;libcxx;libcxxabi;libunwind;lld;lldb;openmp;parallel-libs;polly;pstl" CACHE STRING "" FORCE) # libc;clang-tools-extra;
+set(LLVM_ENABLE_PROJECTS "clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) # libc;clang-tools-extra;
 # clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) #;debuginfo-tests;parallel-libs;polly;pstl;libc;libclc;
 
 set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/dist" CACHE STRING "" FORCE)
