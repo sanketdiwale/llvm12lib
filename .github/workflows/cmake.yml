@@ -7,7 +7,7 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  BUILD_TYPE: Debug
 
 jobs:
   build:
@@ -53,12 +53,12 @@ jobs:
     - name: Compress binary
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: tar -zcvf llvm12_${{ matrix.os }}.tar.gz dist
+      run: tar -zcvf llvm13_${{ matrix.os }}.tar.gz dist
     - name: Create Artifact
       uses: actions/upload-artifact@v2
       with: 
-        name: llvm12_${{ matrix.os }}
-        path: ${{runner.workspace}}/build/llvm12_${{ matrix.os }}.tar.gz
+        name: llvm13_${{ matrix.os }}
+        path: ${{runner.workspace}}/build/llvm13_${{ matrix.os }}.tar.gz
   create_prerelease:
     needs: [build]
     if: success()
@@ -71,13 +71,13 @@ jobs:
     - name: Download build artifacts
       uses: actions/download-artifact@v2
       with:
-        name: llvm12_${{ matrix.os }}
+        name: llvm13_${{ matrix.os }}
         path: ${{runner.workspace}}
     - name: prerelease binaries
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: ${{runner.workspace}}/llvm12_${{ matrix.os }}.tar.gz
+        files: ${{runner.workspace}}/llvm13_${{ matrix.os }}.tar.gz
         prerelease: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
