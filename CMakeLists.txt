@@ -33,7 +33,7 @@ set(LLVM_STATIC_LINK_CXX_STDLIB ON CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(LLVM_BUILD_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
 set(LLVM_LINK_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
-set(LLVM_ENABLE_PROJECTS "clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) #;debuginfo-tests;parallel-libs;polly;pstl;libc;libclc;
+set(LLVM_ENABLE_PROJECTS "clang;clang-tools-extra;libcxx;libcxxabi;libunwind;lld;libclc" CACHE STRING "" FORCE) #compiler-rt;debuginfo-tests;parallel-libs;polly;pstl;libc;libclc;
 
 set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/dist" CACHE STRING "" FORCE)
 if(APPLE)
