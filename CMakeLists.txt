@@ -14,7 +14,7 @@ set(FETCHCONTENT_QUIET FALSE)
 # get and configure LLVM
 set(EP_LLVM "LLVM")
 message(STATUS "Build ${EP_LLVM} from source")
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 # set(FETCHCONTENT_SOURCE_DIR_${EP_LLVM} "${PROJECT_SOURCE_DIR}/external/llvm-project-src")
 FetchContent_Declare(
     ${EP_LLVM}
@@ -33,7 +33,7 @@ set(LLVM_STATIC_LINK_CXX_STDLIB ON CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(LLVM_BUILD_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
 set(LLVM_LINK_LLVM_DYLIB OFF CACHE BOOL "" FORCE)
-set(LLVM_ENABLE_PROJECTS "clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) # libc;clang-tools-extra;
+set(LLVM_ENABLE_PROJECTS "clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;libclc" CACHE STRING "" FORCE) # libc;clang-tools-extra;
 # clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind;lld;openmp;libclc" CACHE STRING "" FORCE) #;debuginfo-tests;parallel-libs;polly;pstl;libc;libclc;
 
 set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/dist" CACHE STRING "" FORCE)

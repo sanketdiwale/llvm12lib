@@ -7,14 +7,14 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Debug
+  BUILD_TYPE: Release
 
 jobs:
   build:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest] # add to it ubuntu-latest, windows-latest
+        os: [macos-latest,ubuntu-latest,windows-latest] # add to it ubuntu-latest, windows-latest
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
@@ -45,7 +45,7 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config $BUILD_TYPE
+      run: cmake --build . --config $BUILD_TYPE --target ALL_BUILD
     - name: collect the distribution files
       working-directory: ${{runner.workspace}}/build
       shell: bash
@@ -65,7 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest] # add to it ubuntu-latest, windows-latest
+        os: [macos-latest,ubuntu-latest,windows-latest] # add to it ubuntu-latest, windows-latest
     runs-on: ${{ matrix.os }}
     steps:
     - name: Download build artifacts
