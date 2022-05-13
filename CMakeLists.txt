@@ -45,3 +45,40 @@ endif()
 FetchContent_MakeAvailable(${EP_LLVM})
 FetchContent_GetProperties(${EP_LLVM})
 set(llvm_CMAKE_PATH "${llvm_BINARY_DIR}/lib/cmake/llvm")
+
+if(MSVC)
+if(WIN32)
+  # prioritize Git Patch on Windows as other Patches may be very old and incompatible.
+  find_package(Git)
+  if(Git_FOUND)
+    get_filename_component(GIT_DIR ${GIT_EXECUTABLE} DIRECTORY)
+    get_filename_component(GIT_DIR ${GIT_DIR} DIRECTORY)
+  endif()
+endif()
+
+find_program(PATCH
+NAMES patch
+HINTS ${GIT_DIR}
+PATH_SUFFIXES usr/bin
+)
+
+if(NOT PATCH)
+  message(FATAL_ERROR "Did not find GNU Patch")
+endif()
+
+set(in_file "${llvm_SOURCE_DIR}/compiler-rt/cmake/Modules/AddCompilerRT.cmake" CACHE STRING "" FORCE)
+set(patch_file "${PROJECT_SOURCE_DIR}/update-addcompilerRT.cmake-for-windows.patch" CACHE STRING "" FORCE)
+set(out_file "${llvm_SOURCE_DIR}/compiler-rt/cmake/Modules/AddCompilerRT1.cmake" CACHE STRING "" FORCE)
+file(RENAME  ${in_file} ${out_file})
+execute_process(COMMAND ${PATCH} ${out_file} --input=${patch_file} --output=${in_file} --ignore-whitespace
+TIMEOUT 15
+COMMAND_ECHO STDOUT
+RESULT_VARIABLE ret
+)
+file(REMOVE ${out_file})
+if(NOT ret EQUAL 0)
+  message(FATAL_ERROR "Failed to apply patch ${patch_file} to ${in_file} with ${PATCH}")
+endif()
+
+
+endif()
